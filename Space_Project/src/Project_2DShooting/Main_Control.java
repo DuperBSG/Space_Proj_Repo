@@ -116,19 +116,28 @@ public class Main_Control {
 	class Tl1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
-			time++;
+			
+			if (player.vy >= -90) {
+				player.vy -= 1;
+				System.out.println(player.vy);
+			}
+		
+			if (player.y >= 460) {
+				player.vy = 0;
+				if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38) ) player.move('W');
+			}
 			//move ship (assuming that a key has been pressed)		
-			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', time);
+			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A');
 			
-			if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', time);
+			if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D');
 			//if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S');
+			//if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38) ) player.move('W');
+		
 			
-			if (player.y < 490) {
-				player.move('F', time);
-			}
-			else {
-				if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', time);
-			}
+			//if (player.y < 460) {
+				player.move('F');
+			//}
+			
 		}
 	}
 }

@@ -37,18 +37,19 @@ public class Player_Ship extends Rectangle {
 			System.out.println("Warning: gitkrakenSM.png failed to load");
 		}
 		
+		if (yy < 600) {
+			vy = 0;
+		}
+		
 	}
 	
-	public void move (int key, int t) {
+	public void move (int key) {
 		switch (key) {
-		case 'W':		
-			if (yy > 5) yy -= vy; 
-			if (yy < 600) {
-				vy = 0;
-			}
+		case 'W':	 
+			vy = 15;
 			break;
 		case 'S':
-			if (yy < Main_Control.PW - 110) yy +=vy; 
+			if (yy < Main_Control.PW - 110) yy += vy; 
 			break;
 		case 'A':
 			if (xx > 5) xx -=vx; 
@@ -57,16 +58,9 @@ public class Player_Ship extends Rectangle {
 			if (xx < Main_Control.PH - 90) xx +=vx; 
 			break;
 		case 'F':
-			if (yy < Main_Control.PW - 110) yy += 9.8; 
+			if (yy < Main_Control.PW - 110) yy -= vy; 
 			break;
 		}
-		// wrap around on the screen
-		/*
-		if (xx < 0 - width) 
-		if (yy < 0 - height) 
-		if (xx > Main_Control.PH) xx = 0;
-		if (yy > Main_Control.PW) yy = 0;
-		*/
 		//update final positions
 		x = (int)xx;
 		y = (int)yy;
