@@ -19,6 +19,8 @@ public class Blocks extends Rectangle{
 	Color clr = Color.GREEN;
 	
 	Blocks (int x, int y) {
+		height = 100;
+		width = 100;
 		this.x = x;
 		this.y = y;
 		height = 20;
@@ -27,15 +29,12 @@ public class Blocks extends Rectangle{
 		
 		try {
 			img = ImageIO.read(new File("platform.png"));
-			width = 20;
-			height = 20;
 		} catch (IOException e) {
-			System.out.println("Warning: gitkrakenSM.png failed to load");
+			System.out.println("Warning: platform.png failed to load");
 		}
 		
 		blcLi.add(this);
 	}
-	
 	
 	static void boost(Player_Ship sp) {
 		sp.vx += 2;
