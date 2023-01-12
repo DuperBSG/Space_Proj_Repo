@@ -1,6 +1,7 @@
 package Project_2DShooting;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
@@ -23,10 +24,12 @@ public class Main_Control {
 	}
 	
 	final static int PH = 700;
-	final static int PW = 700;
+	final static int PW = 980;
 	JFrame window;
 	final Color bg = new Color(50, 80, 60);
-	Player_Ship player = new Player_Ship(PH/2, PW/2); 
+	Player_Ship player = new Player_Ship(100, 400); 
+	Enemy enemy = new Enemy(900, 400); 
+	Gun gun = new Gun(); 
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
 	
@@ -47,12 +50,12 @@ public class Main_Control {
 	}
 	
 	public void setGround() {
-		for (int i = 0; i < 700; i += 70) {
+		for (int i = 0; i < PW; i += 70) {
 			Blocks.blcLi.add(new Blocks(i, 560));
 		}
 	}
 	public void setGround2() {
-		for (int i = 0; i < 700; i += 70) {
+		for (int i = 0; i < PW; i += 70) {
 			Blocks2.blcLi.add(new Blocks2(i, 630));
 		}
 	}
@@ -61,11 +64,11 @@ public class Main_Control {
 		window = new JFrame("Shooting game");
 		window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-	
-		
-		
 		
 	}
+	
+	boolean right = true;
+	boolean eRight = false;
 	
 	class Panel extends JPanel{
 		
@@ -82,13 +85,14 @@ public class Main_Control {
 			Graphics2D g2 = (Graphics2D)g;
 	        super.paintComponent(g2); 
 
-	        if (player.img != null) {
-				//g2.drawImage(player.img, player.x, player.y, null);
-	        	g2.drawImage(player.img, player.x, player.y, player.dim, player.dim, null);
-			} else {
-				g2.setColor(player.clr);
-				g2.fillRect(player.x,  player.y,  player.width, player.height);
-			}
+	        if (right)  g2.drawImage(player.img, player.x, player.y, player.dim, player.dim, null);
+	        else g2.drawImage(player.img, player.x + 70, player.y, -player.dim, player.dim, null);
+	      
+	        if (right) g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
+	        else g2.drawImage(gun.img, player.x + 70, player.y, -gun.dim, gun.dim, null);
+
+	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
+	        else g2.drawImage(enemy.img, enemy.x + 70, enemy.y, -enemy.dim, enemy.dim, null);
 	        
 	       
 	        for (Blocks it : Blocks.blcLi) {    
@@ -102,33 +106,67 @@ public class Main_Control {
 				} 
 	        }
 	   
-	        
+	        g2.setColor(Color.green);
+	        Font f2 = new Font("Arial", Font.CENTER_BASELINE, 40);
+	        g2.setFont(f2);
+	       
+	        if (player.health != 0) {
+	 	        g2.drawString("" + player.health, 100, 100);
+	        }
+	        else { 
+	        	g2.drawString("Game Over", 100, 100);
+	        	t.stop();
+	        }
 	        
 	        this.repaint();
 		}
 
 	}
-	
-	
-	int time = 0;
-	
+
 	
 	class Tl1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
-			time++;
-			//move ship (assuming that a key has been pressed)		
-			if (bKeyL.isKeyDown('A') || bKeyL.isKeyDown(37)) player.move('A', time);
-			
-			if (bKeyL.isKeyDown('D') || bKeyL.isKeyDown(39)) player.move('D', time);
-			//if (bKeyL.isKeyDown('S') || bKeyL.isKeyDown(40)) player.move('S');
-			
-			if (player.y < 490) {
-				player.move('F', time);
+			if (player.vy >= -90) {
+				player.vy -= 1;
+			}	
+			if (enemy.vy >= -90) {
+				enemy.vy -= 1;
 			}
-			else {
-				if (bKeyL.isKeyDown('W') || bKeyL.isKeyDown(38)) player.move('W', time);
+		
+	
+			
+			if (player.y >= 460) {
+				player.vy = 0;
+				if (bKeyL.isKeyDown('W')) player.move('W');
 			}
+			if (bKeyL.isKeyDown('A')) {
+				player.move('A');
+				right = false;
+			}			
+			if (bKeyL.isKeyDown('D')) {
+				player.move('D');
+				right = true;
+			}
+			
+			
+			if (enemy.y >= 460) {
+				enemy.vy = 0;
+				if (bKeyL.isKeyDown(38)) enemy.move('W');
+			}
+			if (bKeyL.isKeyDown(37)) {
+				enemy.move('A');
+				eRight = false;
+			}
+			if (bKeyL.isKeyDown(39)) {
+				enemy.move('D');
+				eRight = true;
+			}
+			
+			player.move('F');
+			enemy.move('F');
+			
+			
 		}
 	}
 }
