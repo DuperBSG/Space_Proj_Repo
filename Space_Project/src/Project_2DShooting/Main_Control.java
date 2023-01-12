@@ -68,7 +68,7 @@ public class Main_Control {
 	}
 	
 	boolean right = true;
-	boolean eRight = true;
+	boolean eRight = false;
 	
 	class Panel extends JPanel{
 		
@@ -122,16 +122,6 @@ public class Main_Control {
 		}
 
 	}
-	
-	boolean intersect() {
-		for (Blocks it : Blocks.blcLi) {    
-			if (player.intersects(it)) {
-				//System.out.println("YES");
-				return true;
-			}
-		}
-		return false;
-	}
 
 	
 	class Tl1 implements ActionListener {
@@ -139,31 +129,31 @@ public class Main_Control {
 	
 			if (player.vy >= -90) {
 				player.vy -= 1;
-			}
-			
+			}	
 			if (enemy.vy >= -90) {
 				enemy.vy -= 1;
 			}
-			
-			if (enemy.y >= 460) enemy.vy = 0;
+		
 	
 			
 			if (player.y >= 460) {
 				player.vy = 0;
 				if (bKeyL.isKeyDown('W')) player.move('W');
 			}
-
 			if (bKeyL.isKeyDown('A')) {
 				player.move('A');
 				right = false;
-			}
-			
+			}			
 			if (bKeyL.isKeyDown('D')) {
 				player.move('D');
 				right = true;
 			}
 			
 			
+			if (enemy.y >= 460) {
+				enemy.vy = 0;
+				if (bKeyL.isKeyDown(38)) enemy.move('W');
+			}
 			if (bKeyL.isKeyDown(37)) {
 				enemy.move('A');
 				eRight = false;
@@ -171,10 +161,6 @@ public class Main_Control {
 			if (bKeyL.isKeyDown(39)) {
 				enemy.move('D');
 				eRight = true;
-			}
-			if (enemy.y >= 460) {
-				enemy.vy = 0;
-				if (bKeyL.isKeyDown(38)) enemy.move('W');
 			}
 			
 			player.move('F');
