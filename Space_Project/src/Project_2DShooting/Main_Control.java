@@ -25,6 +25,8 @@ public class Main_Control {
 	
 	final static int PH = 700;
 	final static int PW = 980;
+	static int gunPos1 = 0;
+	static int gunPos2 = 180;
 	JFrame window;
 	final Color bg = new Color(50, 80, 60);
 	Player_Ship player = new Player_Ship(100, 400); 
@@ -32,6 +34,7 @@ public class Main_Control {
 	Gun gun = new Gun(); 
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
+	KeyAimming kAim = new KeyAimming();
 	
 	
 	Main_Control() {
@@ -75,6 +78,7 @@ public class Main_Control {
 		Panel() {
 			this.setBackground(bg);
 			this.addKeyListener(bKeyL);
+			this.addKeyListener(kAim);
 			this.setFocusable(true);
 			this.setPreferredSize(new Dimension(PW, PH));
 			t.start();
@@ -89,7 +93,7 @@ public class Main_Control {
 	        else g2.drawImage(player.img, player.x + 70, player.y, -player.dim, player.dim, null);
 	      
 	        if (right) g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	        else g2.drawImage(gun.img, player.x + 70, player.y, -gun.dim, gun.dim, null);
+	        else g2.drawImage(gun.img, player.x - 30, player.y, gun.dim, gun.dim, null);
 
 	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
 	        else g2.drawImage(enemy.img, enemy.x + 70, enemy.y, -enemy.dim, enemy.dim, null);
@@ -147,6 +151,41 @@ public class Main_Control {
 			if (bKeyL.isKeyDown('D')) {
 				player.move('D');
 				right = true;
+			}
+			if (bKeyL.isKeyDown('G')) {
+				if(gunPos1 >=180) {
+					gunPos1 = 180;
+				}else {
+					gunPos1 += 1;
+				}
+				System.out.println(gunPos1);
+			}
+			
+			if (bKeyL.isKeyDown('H')) {
+				if(gunPos1 <=0) {
+					gunPos1 = 0;
+				}else {
+					gunPos1 -= 1;
+				}
+				System.out.println(gunPos1);
+			}
+			
+			if (bKeyL.isKeyDown('<')) {
+				if(gunPos1 >=180) {
+					gunPos2 = 0;
+				}else {
+					gunPos2 += 1;
+				}
+				System.out.println(gunPos1);
+			}
+			
+			if (bKeyL.isKeyDown('>')) {
+				if(gunPos2 <=0) {
+					gunPos2 = 0;
+				}else {
+					gunPos2 -= 1;
+				}
+				System.out.println(gunPos1);
 			}
 			
 			
