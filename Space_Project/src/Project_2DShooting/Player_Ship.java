@@ -1,6 +1,4 @@
 package Project_2DShooting;
-
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,7 +14,6 @@ public class Player_Ship extends Rectangle {
 	int health = 100;
 	int dim = 100;
 	BufferedImage img;
-	Color clr = Color.GREEN;  //TODO: make the enemy one a different colour
 	
 	Player_Ship (int x, int y) {
 		

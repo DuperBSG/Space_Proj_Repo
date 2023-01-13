@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -26,6 +25,8 @@ public class Main_Control {
 		});
 	}
 	
+	Laser laser = new Laser(100, 100);
+	
 	final static int PH = 700;
 	final static int PW = 980;
 	static double gunPos1 = 0.0;
@@ -37,6 +38,7 @@ public class Main_Control {
 	Gun gun = new Gun(); 
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
+	
 	AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(gunPos1), player.x, player.y);
     AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 	AffineTransform at = AffineTransform.getTranslateInstance(player.x, player.y);
@@ -99,13 +101,22 @@ public class Main_Control {
 	        
 	        
 	        AffineTransform old = g2.getTransform();
-	        g2.rotate(Math.toRadians(gunPos1), player.x + 50, player.y + 50);
-	        if (right) g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	        else g2.drawImage(gun.img, player.x - 30, player.y, gun.dim, gun.dim, null);
+	        
+	        if (right) {
+	        	g2.rotate(Math.toRadians(gunPos1), player.x + 50, player.y + 50);
+	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
+	        }
+	        else {
+	        	g2.rotate(Math.toRadians(gunPos1), player.x + 20, player.y + 50);
+	        	g2.drawImage(gun.img, player.x - 30, player.y, gun.dim, gun.dim, null);
+	        }
 	        g2.setTransform(old);
 	        
 	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
 	        else g2.drawImage(enemy.img, enemy.x + 70, enemy.y, -enemy.dim, enemy.dim, null);
+	        
+	        
+	        //g2.drawImage(laser.img, laser.x + 70, laser.y, laser.dimX, laser.dimY, null);
 	        
 	        
 	       
@@ -149,7 +160,7 @@ public class Main_Control {
 			}
 		
 	
-			
+	
 			if (player.y >= 460) {
 				player.vy = 0;
 				if (bKeyL.isKeyDown('W')) player.move('W');
@@ -180,6 +191,7 @@ public class Main_Control {
 				System.out.println(gunPos1);
 			}
 			
+			/*
 			if (bKeyL.isKeyDown('<')) {
 				if(gunPos1 >=180) {
 					gunPos2 = 0;
@@ -197,7 +209,7 @@ public class Main_Control {
 				}
 				System.out.println(gunPos1);
 			}
-			
+			*/
 			
 			if (enemy.y >= 460) {
 				enemy.vy = 0;
