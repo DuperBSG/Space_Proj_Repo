@@ -2,11 +2,13 @@ package Project_2DShooting;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 /* This will just be moving vertically (initially)
  */
 class Laser extends Rectangle{
 	
+	static ArrayList<Laser> laserList = new ArrayList<Laser>();
 	static final int MAXSHOT = 15;
 	static final int SHOTDELAY = 300;  //milliseconds
 	static Color clr = Color.YELLOW;

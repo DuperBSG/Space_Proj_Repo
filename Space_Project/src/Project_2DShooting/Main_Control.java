@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 
+
 public class Main_Control {
 
 	public static void main(String[] args) {
@@ -143,6 +144,13 @@ public class Main_Control {
 	        	t.stop();
 	        }
 	        
+	        
+	        g2.setColor(Laser.clr);
+			for (Laser laser : Laser.laserList) {
+				g.fillRect(laser.x,  laser.y, laser.width, laser.height);
+			}
+			
+	        
 	        this.repaint();
 		}
 
@@ -223,7 +231,15 @@ public class Main_Control {
 				enemy.move('D');
 				eRight = true;
 			}
-			
+			if (bKeyL.isKeyDown(' ')) {
+				//if (laserList.size() < Laser.MAXSHOT) {
+					Laser.laserList.add( player.shoot() );
+				//}
+			}
+
+			for (Laser laser : Laser.laserList) {
+				laser.move();
+			}
 			player.move('F');
 			enemy.move('F');
 			
