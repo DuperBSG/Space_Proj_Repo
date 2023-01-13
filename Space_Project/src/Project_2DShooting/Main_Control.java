@@ -6,10 +6,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+
+import spaceGame.Laser;
 
 
 public class Main_Control {
@@ -32,7 +36,8 @@ public class Main_Control {
 	Gun gun = new Gun(); 
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
-	
+	ArrayList<Laser> laserList = new ArrayList<Laser>();
+
 	
 	Main_Control() {
 		setFrame();
@@ -43,9 +48,7 @@ public class Main_Control {
 		setGround2();
 		//window.setUndecorated(true);
 		window.setLocationRelativeTo(null);
-		window.setVisible(true);
-		
-		
+		window.setVisible(true);	
 		
 	}
 	
@@ -79,7 +82,6 @@ public class Main_Control {
 			this.setPreferredSize(new Dimension(PW, PH));
 			t.start();
 		}
-		
 		
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D)g;
@@ -119,6 +121,13 @@ public class Main_Control {
 	        }
 	        
 	        this.repaint();
+	        
+	        
+	        g.setColor(Laser.clr);
+			for (Laser laser : laserList) {
+				g.fillRect(laser.x,  laser.y, laser.width, laser.height);
+			}
+			
 		}
 
 	}
@@ -162,7 +171,6 @@ public class Main_Control {
 				player.move('D');
 				right = true;
 			}
-			
 			
 			if (bKeyL.isKeyDown(37)) {
 				enemy.move('A');
