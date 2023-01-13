@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import spaceGame.Laser;
+
 public class Player_Ship extends Rectangle {
 
 	double xx, yy;  //double versions of x,y for precise moving
@@ -13,6 +15,7 @@ public class Player_Ship extends Rectangle {
 	double vy = 0;
 	int health = 100;
 	int dim = 100;
+	private boolean isAlive = true;
 	BufferedImage img;
 	
 	Player_Ship (int x, int y) {
@@ -54,5 +57,15 @@ public class Player_Ship extends Rectangle {
 		x = (int)xx;
 		y = (int)yy;
 	}
+	
+	//Laser must be returned so that it can be added to the arraylist
+			Laser shoot() {	
+				//laser constructor gets the (x,y) where it should start
+				Laser z = new Laser(this.x + this.width/2, this.y + 10);
+				return z;
+			}
+			
+			boolean isAlive() 	{ return isAlive; }
+			void 	die() 		{ isAlive = false; }
 	
 }
