@@ -101,7 +101,7 @@ public class Main_Control {
 	        AffineTransform old = g2.getTransform();
 	        g2.rotate(Math.toRadians(gunPos1), player.x + 50, player.y + 50);
 	        if (right) g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	        else g2.drawImage(gun.img, player.x - 30, player.y, gun.dim, gun.dim, null);
+	        else g2.drawImage(gun.img, player.x-30, player.y, gun.dim, gun.dim, null);
 	        g2.setTransform(old);
 	        
 	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
