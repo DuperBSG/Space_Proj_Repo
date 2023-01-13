@@ -6,6 +6,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -25,6 +28,8 @@ public class Main_Control {
 	
 	final static int PH = 700;
 	final static int PW = 980;
+	static double gunPos1 = 0.0;
+	static double gunPos2 = 180.0;
 	JFrame window;
 	final Color bg = new Color(50, 80, 60);
 	Player_Ship player = new Player_Ship(100, 400); 
@@ -32,7 +37,9 @@ public class Main_Control {
 	Gun gun = new Gun(); 
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
-	
+	AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(gunPos1), player.x, player.y);
+    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+	AffineTransform at = AffineTransform.getTranslateInstance(player.x, player.y);
 	
 	Main_Control() {
 		setFrame();
@@ -63,7 +70,7 @@ public class Main_Control {
 	public void setFrame() {
 		window = new JFrame("Shooting game");
 		window.setResizable(false);
-		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}
 	
@@ -83,16 +90,23 @@ public class Main_Control {
 		
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D)g;
+			at.rotate(Math.toRadians(gunPos1), player.x/2, player.y);
 	        super.paintComponent(g2); 
-
+	        
 	        if (right)  g2.drawImage(player.img, player.x, player.y, player.dim, player.dim, null);
 	        else g2.drawImage(player.img, player.x + 70, player.y, -player.dim, player.dim, null);
-	      
+	        
+	        
+	        
+	        AffineTransform old = g2.getTransform();
+	        g2.rotate(Math.toRadians(gunPos1), player.x + 50, player.y + 50);
 	        if (right) g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	        else g2.drawImage(gun.img, player.x + 70, player.y, -gun.dim, gun.dim, null);
-
+	        else g2.drawImage(gun.img, player.x - 30, player.y, gun.dim, gun.dim, null);
+	        g2.setTransform(old);
+	        
 	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
 	        else g2.drawImage(enemy.img, enemy.x + 70, enemy.y, -enemy.dim, enemy.dim, null);
+	        
 	        
 	       
 	        for (Blocks it : Blocks.blcLi) {    
@@ -147,6 +161,41 @@ public class Main_Control {
 			if (bKeyL.isKeyDown('D')) {
 				player.move('D');
 				right = true;
+			}
+			if (bKeyL.isKeyDown('H')) {
+				if(gunPos1 >=0) {
+					gunPos1 = 0;
+				}else {
+					gunPos1 += 5;
+				}
+				System.out.println(gunPos1);
+			}
+			
+			if (bKeyL.isKeyDown('G')) {
+				if(gunPos1 <=-180) {
+					gunPos1 = -180;
+				}else {
+					gunPos1 -= 5;
+				}
+				System.out.println(gunPos1);
+			}
+			
+			if (bKeyL.isKeyDown('<')) {
+				if(gunPos1 >=180) {
+					gunPos2 = 0;
+				}else {
+					gunPos2 += 1;
+				}
+				System.out.println(gunPos1);
+			}
+			
+			if (bKeyL.isKeyDown('>')) {
+				if(gunPos2 <=0) {
+					gunPos2 = 0;
+				}else {
+					gunPos2 -= 1;
+				}
+				System.out.println(gunPos1);
 			}
 			
 			
