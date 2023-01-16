@@ -143,7 +143,12 @@ public class Main_Control {
 	        g2.setTransform(laz);
 	        
         	
-        	
+	        for (Flame flame : Flame.flameList) {
+	        	//g2.rotate(Math.toRadians(laser.ang), player.x, player.y);
+				g2.drawImage(flame.img, flame.x, flame.y, flame.dimX, flame.dimY, null);
+				//g2.fillRect(laser.x, laser.y, laser.width, laser.height);
+			}
+	        
 	         
 	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
 	        else g2.drawImage(enemy.img, enemy.x + 100, enemy.y, -enemy.dim, enemy.dim, null);
@@ -190,6 +195,7 @@ public class Main_Control {
 
 	
 	int coolDown = 0;
+	int coolDown2 = 0;
 	class Tl1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
@@ -250,7 +256,18 @@ public class Main_Control {
 				}
 				System.out.println(gunPos1);
 			}
+			
+			
+			
+			
+			*
 			*/
+			
+			if (bKeyL.isKeyDown('M') && coolDown2 <= 0) {
+				Flame.flameList.add(new Flame(enemy.x, enemy.y +20, 0));
+				coolDown2 = 30;
+			}
+			
 			
 			if (enemy.y >= 460) {
 				enemy.vy = 0;
@@ -278,11 +295,20 @@ public class Main_Control {
 					Laser.laserList.remove(i);
 				}
 			}
+			
+			for (int i = 0; i < Flame.flameList.size(); i++) {
+				Flame.flameList.get(i).move();
+				if (Flame.flameList.get(i).intersects(player)) {
+					player.health -= 5;
+					Flame.flameList.remove(i);
+				}
+			}
 		//	Laser.laserList = arr;
 			
 			player.move('F');
 			enemy.move('F');
 			coolDown--;
+			coolDown2--;
 			//System.out.println(coolDown);
 			
 		}
