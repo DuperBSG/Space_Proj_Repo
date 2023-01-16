@@ -195,6 +195,7 @@ public class Main_Control {
 
 	
 	int coolDown = 0;
+	int coolDown2 = 0;
 	class Tl1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
@@ -262,9 +263,9 @@ public class Main_Control {
 			*
 			*/
 			
-			if (bKeyL.isKeyDown('M')) {
+			if (bKeyL.isKeyDown('M') && coolDown2 <= 0) {
 				Flame.flameList.add(new Flame(enemy.x, enemy.y +20, 0));
-				//coolDown = 30;
+				coolDown2 = 30;
 			}
 			
 			
@@ -307,6 +308,7 @@ public class Main_Control {
 			player.move('F');
 			enemy.move('F');
 			coolDown--;
+			coolDown2--;
 			//System.out.println(coolDown);
 			
 		}
