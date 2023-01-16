@@ -37,11 +37,14 @@ public class Main_Control {
 	Player_Ship player = new Player_Ship(100, 400); 
 	Enemy enemy = new Enemy(900, 400); 
 	Gun gun = new Gun(); 
+	Gun2 gun2 = new Gun2();
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
 	Panel pnl;
 	
 	AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(gunAng1), player.x, player.y);
+	//AffineTransform tx1 = AffineTransform.getRotateInstance(Math.toRadians(gunAng2), enemy.x, enemy.y);
+
     AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 	AffineTransform at = AffineTransform.getTranslateInstance(player.x, player.y);
 	
@@ -113,15 +116,17 @@ public class Main_Control {
 	        
 	        AffineTransform old = g2.getTransform();
 	        
-	        if (right) {
+	       // if (right) {
 	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
 	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
 	
-	        }
-	        else {
-	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
-	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	        }
+	        	
+	    
+	       // }
+	       // else {
+//	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
+//	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
+	        //}
 	        
 	        
 	        
@@ -137,12 +142,14 @@ public class Main_Control {
 			}
 	        g2.setTransform(laz);
 	        
-	        
-	        
-	        
+        	
+        	
 	         
 	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
 	        else g2.drawImage(enemy.img, enemy.x + 100, enemy.y, -enemy.dim, enemy.dim, null);
+	        
+	        //g2.rotate(Math.toRadians(gunAng2), enemy.x + 50, enemy.y + 50);
+	        g2.drawImage(gun2.img, enemy.x, enemy.y, gun2.dim, gun2.dim, null);
 	        
 	        
 	        //g2.drawImage(laser.img, laser.x + 70, laser.y, laser.dimX, laser.dimY, null);
