@@ -24,7 +24,7 @@ public class Flame extends Laser {
 		
 		
 		try {
-			img = ImageIO.read(new File("flame.png"));
+			img = ImageIO.read(new File("explosion.png"));
 		} catch (IOException e) {
 			System.out.println("Warning: flame.png failed to load");
 		}
