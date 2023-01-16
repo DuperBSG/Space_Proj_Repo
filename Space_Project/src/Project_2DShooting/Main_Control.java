@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -26,12 +28,10 @@ public class Main_Control {
 		});
 	}
 	
-	Laser laser = new Laser(100, 100);
-	
 	final static int PH = 700;
 	final static int PW = 980;
-	static double gunPos1 = 0.0;
-	static double gunPos2 = 180.0;
+	static double gunAng1 = 0.0;
+	static double gunAng2 = 180.0;
 	JFrame window;
 	final Color bg = new Color(50, 80, 60);
 	Player_Ship player = new Player_Ship(100, 400); 
@@ -39,8 +39,9 @@ public class Main_Control {
 	Gun gun = new Gun(); 
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
+	Panel pnl;
 	
-	AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(gunPos1), player.x, player.y);
+	AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(gunAng1), player.x, player.y);
     AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 	AffineTransform at = AffineTransform.getTranslateInstance(player.x, player.y);
 	
@@ -93,28 +94,55 @@ public class Main_Control {
 		
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D)g;
-			at.rotate(Math.toRadians(gunPos1), player.x/2, player.y);
+			at.rotate(Math.toRadians(gunAng1), player.x/2, player.y);
 	        super.paintComponent(g2); 
 	        
-	        if (right)  g2.drawImage(player.img, player.x, player.y, player.dim, player.dim, null);
-	        else g2.drawImage(player.img, player.x + 70, player.y, -player.dim, player.dim, null);
+	        if (right) {
+	        	g2.drawImage(player.img, player.x, player.y, player.dim, player.dim, null);
+	        	//g2.fillRect(player.x, player.y, player.dim, player.dim);
+	        }
+	        else {
+	        	g2.drawImage(player.img, player.x +100, player.y, -player.dim, player.dim, null);
+	        	//g2.fillRect(player.x + 70, player.y, -player.dim, player.dim);
+	        }
+	        
+	       
+	
 	        
 	        
 	        
 	        AffineTransform old = g2.getTransform();
 	        
 	        if (right) {
-	        	g2.rotate(Math.toRadians(gunPos1), player.x + 50, player.y + 50);
+	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
 	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
+	
 	        }
 	        else {
-	        	g2.rotate(Math.toRadians(gunPos1), player.x + 20, player.y + 50);
-	        	g2.drawImage(gun.img, player.x - 30, player.y, gun.dim, gun.dim, null);
+	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
+	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
 	        }
+	        
+	        
+	        
+	        
 	        g2.setTransform(old);
 	        
+	        AffineTransform laz = g2.getTransform();
+	        
+	        for (Laser laser : Laser.laserList) {
+	        	//g2.rotate(Math.toRadians(laser.ang), player.x, player.y);
+				g2.drawImage(laser.img, laser.x, laser.y, laser.dimX, laser.dimY, null);
+				//g2.fillRect(laser.x, laser.y, laser.width, laser.height);
+			}
+	        g2.setTransform(laz);
+	        
+	        
+	        
+	        
+	         
 	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
-	        else g2.drawImage(enemy.img, enemy.x + 70, enemy.y, -enemy.dim, enemy.dim, null);
+	        else g2.drawImage(enemy.img, enemy.x + 100, enemy.y, -enemy.dim, enemy.dim, null);
 	        
 	        
 	        //g2.drawImage(laser.img, laser.x + 70, laser.y, laser.dimX, laser.dimY, null);
@@ -137,7 +165,7 @@ public class Main_Control {
 	        g2.setFont(f2);
 	       
 	        if (player.health != 0) {
-	 	        g2.drawString("" + player.health, 100, 100);
+	 	        g2.drawString("" + enemy.health, 100, 100);
 	        }
 	        else { 
 	        	g2.drawString("Game Over", 100, 100);
@@ -145,18 +173,16 @@ public class Main_Control {
 	        }
 	        
 	        
-	        g2.setColor(Laser.clr);
-			for (Laser laser : Laser.laserList) {
-				g.fillRect(laser.x,  laser.y, laser.width, laser.height);
-			}
 			
-	        
-	        this.repaint();
+		        
+			 this.repaint();
+		
 		}
 
 	}
 
 	
+	int coolDown = 0;
 	class Tl1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
@@ -182,21 +208,21 @@ public class Main_Control {
 				right = true;
 			}
 			if (bKeyL.isKeyDown('H')) {
-				if(gunPos1 >=0) {
-					gunPos1 = 0;
+				if(gunAng1 >=0) {
+					gunAng1 = 0;
 				}else {
-					gunPos1 += 5;
+					gunAng1 += 5;
 				}
-				System.out.println(gunPos1);
+				System.out.println(gunAng1);
 			}
 			
 			if (bKeyL.isKeyDown('G')) {
-				if(gunPos1 <=-180) {
-					gunPos1 = -180;
+				if(gunAng1 <=-180) {
+					gunAng1 = -180;
 				}else {
-					gunPos1 -= 5;
+					gunAng1 -= 5;
 				}
-				System.out.println(gunPos1);
+				System.out.println(gunAng1);
 			}
 			
 			/*
@@ -231,18 +257,26 @@ public class Main_Control {
 				enemy.move('D');
 				eRight = true;
 			}
-			if (bKeyL.isKeyDown(' ')) {
-				//if (laserList.size() < Laser.MAXSHOT) {
-					Laser.laserList.add( player.shoot() );
-				//}
+			if (bKeyL.isKeyDown(' ') && coolDown < 0) {
+				Laser.laserList.add(new Laser(player.x, player.y +20, gunAng1));
+				coolDown = 30;
 			}
 
-			for (Laser laser : Laser.laserList) {
-				laser.move();
+			//ArrayList<Laser> arr = new ArrayList<>();
+			//arr = Laser.laserList;
+			for (int i = 0; i < Laser.laserList.size(); i++) {
+				Laser.laserList.get(i).move();
+				if (Laser.laserList.get(i).intersects(enemy)) {
+					enemy.health -= 5;
+					Laser.laserList.remove(i);
+				}
 			}
+		//	Laser.laserList = arr;
+			
 			player.move('F');
 			enemy.move('F');
-			
+			coolDown--;
+			//System.out.println(coolDown);
 			
 		}
 	}
