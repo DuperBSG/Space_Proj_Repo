@@ -10,7 +10,8 @@ public class Enemy extends Player_Ship{
 	
 	Enemy(int x, int y) {
 		super(x, y);
-		
+		height = 100;
+		width = 100;
 		xx = x;
 		yy = y;
 	
