@@ -28,5 +28,3 @@ public class Enemy extends Player_Ship{
 	
 	
 	}
-
-

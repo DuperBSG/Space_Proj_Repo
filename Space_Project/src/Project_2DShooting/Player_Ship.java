@@ -1,12 +1,10 @@
 package Project_2DShooting;
 import java.awt.Rectangle;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-
 
 
 public class Player_Ship extends Rectangle {
@@ -16,11 +14,12 @@ public class Player_Ship extends Rectangle {
 	double vy = 0;
 	int health = 100;
 	int dim = 100;
-	private boolean isAlive = true;
+	//private boolean isAlive = true;
 	BufferedImage img;
 	
 	Player_Ship (int x, int y) {
-		
+		height = 100;
+		width = 100;
 		xx = x;
 		yy = y;
 		
@@ -60,13 +59,10 @@ public class Player_Ship extends Rectangle {
 	}
 	
 	//Laser must be returned so that it can be added to the arraylist
-			Laser shoot() {	
-				//laser constructor gets the (x,y) where it should start
-				Laser z = new Laser(this.x + this.width/2, this.y + 10);
-				return z;
-			}
-			
-			boolean isAlive() 	{ return isAlive; }
-			void 	die() 		{ isAlive = false; }
+	//Laser shoot() {	
+		//laser constructor gets the (x,y) where it should start
+		//Laser z = new Laser(this.x + this.width/2, this.y + 10);
+		//return z;
+	//}
 	
 }
