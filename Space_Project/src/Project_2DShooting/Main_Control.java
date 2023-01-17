@@ -136,27 +136,31 @@ public class Main_Control {
 	        AffineTransform laz = g2.getTransform();
 	        
 	        for (Laser laser : Laser.laserList) {
-	        	//g2.rotate(Math.toRadians(laser.ang), player.x, player.y);
+	        	g2.rotate(Math.toRadians(gunAng1), player.x, player.y);
 				g2.drawImage(laser.img, laser.x, laser.y, laser.dimX, laser.dimY, null);
-				//g2.fillRect(laser.x, laser.y, laser.width, laser.height);
+				g2.setTransform(old);
+				
 			}
 	        g2.setTransform(laz);
 	        
-        	
+	        AffineTransform flam = g2.getTransform();
 	        for (Flame flame : Flame.flameList) {
-	        	//g2.rotate(Math.toRadians(laser.ang), player.x, player.y);
+//	        	g2.rotate(Math.toRadians(gunAng2), player.x, player.y);
 				g2.drawImage(flame.img, flame.x, flame.y, flame.dimX, flame.dimY, null);
-				//g2.fillRect(laser.x, laser.y, laser.width, laser.height);
+//				g2.setTransform(old);
 			}
+	        g2.setTransform(flam);
 	        
 	         
 	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
 	        else g2.drawImage(enemy.img, enemy.x + 100, enemy.y, -enemy.dim, enemy.dim, null);
 	        
 	        //g2.rotate(Math.toRadians(gunAng2), enemy.x + 50, enemy.y + 50);
-	        g2.drawImage(gun2.img, enemy.x, enemy.y, gun2.dim, gun2.dim, null);
-	        
-	        
+	       
+	        g2.rotate(Math.toRadians(gunAng2), enemy.x + 50, enemy.y + 50);
+        	g2.drawImage(gun2.img, enemy.x, enemy.y, gun2.dim, gun2.dim, null);
+        	g2.setTransform(old);
+        	
 	        //g2.drawImage(laser.img, laser.x + 70, laser.y, laser.dimX, laser.dimY, null);
 	        
 	        
@@ -177,15 +181,21 @@ public class Main_Control {
 	        g2.setFont(f2);
 	       
 	        if (player.health != 0) {
-	 	        g2.drawString("" + enemy.health, 100, 100);
-	        }
-	        else { 
+	 	        g2.drawString("" + player.health, 100, 100);
+	        }else { 
 	        	g2.drawString("Game Over", 100, 100);
 	        	t.stop();
 	        }
 	        
+	        g2.setColor(Color.green);
+	        g2.setFont(f2);
 	        
-			
+	        if (enemy.health != 0) {
+	 	        g2.drawString("" + enemy.health, 800, 100);
+	        }else { 
+	        	g2.drawString("Game Over", 800, 100);
+	        	t.stop();
+	        }
 		        
 			 this.repaint();
 		
@@ -238,6 +248,24 @@ public class Main_Control {
 				System.out.println(gunAng1);
 			}
 			
+			if (bKeyL.isKeyDown(',')) {
+				if(gunAng2 >=0) {
+					gunAng2 = 0;
+				}else {
+					gunAng2 += 5;
+				}
+				System.out.println(gunAng1);
+			}
+			
+			if (bKeyL.isKeyDown('.')) {
+				if(gunAng2 <=-180) {
+					gunAng2 = -180;
+				}else {
+					gunAng2 -= 5;
+				}
+				System.out.println(gunAng1);
+			}
+			
 			/*
 			if (bKeyL.isKeyDown('<')) {
 				if(gunPos1 >=180) {
@@ -264,7 +292,7 @@ public class Main_Control {
 			*/
 			
 			if (bKeyL.isKeyDown('M') && coolDown2 <= 0) {
-				Flame.flameList.add(new Flame(enemy.x, enemy.y +20, 0));
+				Flame.flameList.add(new Flame(enemy.x, enemy.y +20, gunAng2));
 				coolDown2 = 30;
 			}
 			

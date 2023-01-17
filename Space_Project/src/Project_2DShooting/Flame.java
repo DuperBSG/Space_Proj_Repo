@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 
 public class Flame extends Laser {
 	static ArrayList <Flame> flameList = new ArrayList <> ();
+	int damage = 20;
 	
 	Flame(int x, int y, double angle) {
 		super(x, y, angle);

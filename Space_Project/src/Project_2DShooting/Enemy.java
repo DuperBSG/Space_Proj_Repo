@@ -6,7 +6,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class Enemy extends Player_Ship{
-
+	int health = 100;
 	
 	Enemy(int x, int y) {
 		super(x, y);
