@@ -193,7 +193,7 @@ public class Main_Control {
 	        if (enemy.health != 0) {
 	 	        g2.drawString("" + enemy.health, 800, 100);
 	        }else { 
-	        	g2.drawString("Game Over", 800, 100);
+	        	g2.drawString("Game Over", 100, 100);
 	        	t.stop();
 	        }
 		        
