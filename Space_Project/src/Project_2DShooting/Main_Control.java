@@ -180,24 +180,18 @@ public class Main_Control {
 	        Font f2 = new Font("Arial", Font.CENTER_BASELINE, 40);
 	        g2.setFont(f2);
 	       
-	        if (player.health != 0) {
+	        if (player.health != 0 && enemy.health != 0) {
 	 	        g2.drawString("" + player.health, 100, 100);
-	        }else { 
-	        	g2.drawString("Game Over", 100, 100);
-	        	t.stop();
-	        }
-	        
-	        g2.setColor(Color.green);
-	        g2.setFont(f2);
-	        
-	        if (enemy.health != 0) {
 	 	        g2.drawString("" + enemy.health, 800, 100);
-	        }else { 
-	        	g2.drawString("Game Over", 100, 100);
+	        }else if(player.health != 0){ 
+	        	g2.drawString("Game Over: Red Player Wins", 100, 100);
+	        	t.stop();
+	        }else if(enemy.health != 0) {
+	        	g2.drawString("Game Over: Green Player Wins", 100, 100);
 	        	t.stop();
 	        }
 		        
-			 this.repaint();
+			this.repaint();
 		
 		}
 
