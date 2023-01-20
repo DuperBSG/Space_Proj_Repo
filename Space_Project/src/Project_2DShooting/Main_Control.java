@@ -27,7 +27,9 @@ public class Main_Control {
 			}
 		});
 	}
-	
+	final static int CRATE = 1;
+	final static int GROUND = 2;
+
 	final static int PH = 700;
 	final static int PW = 980;
 	static double gunAng1 = 0.0;
@@ -41,6 +43,7 @@ public class Main_Control {
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
 	Panel pnl;
+	int ground = 460;
 	
 	AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(gunAng1), player.x, player.y);
 	//AffineTransform tx1 = AffineTransform.getRotateInstance(Math.toRadians(gunAng2), enemy.x, enemy.y);
@@ -54,25 +57,64 @@ public class Main_Control {
 		window.add(pnl);
 		window.pack();
 		setGround();
-		setGround2();
+//		setGround2();
 		//window.setUndecorated(true);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		
-		
-		
 	}
 	
-	public void setGround() {
-		for (int i = 0; i < PW; i += 70) {
-			Blocks.blcLi.add(new Blocks(i, 560));
+//	public void setGround() {
+//		for (int i = 0; i < PW; i += 70) {
+//			Blocks.blcLi.add(new Blocks(i, 560));
+//		}
+//	}
+	
+	int[][] blocks = new int[10][14];
+
+	public void setGround () {
+		//		for (int row = 0; row < 10; row++) {
+		for (int col = 0; col < 14; col++) {
+			blocks[8][col] = CRATE; 
+			blocks[9][col] = GROUND;
+			//blocks[2][col] = CRATE; 
+		}
+
+		
+		blocks[7][2] = CRATE;
+		blocks[7][3] = CRATE;
+		blocks[7][9] = CRATE;
+		blocks[7][10] = CRATE;
+		blocks[7][11] = CRATE;
+
+		blocks[6][2] = CRATE;
+		blocks[6][3] = CRATE;
+		blocks[6][9] = CRATE;
+		blocks[6][10] = CRATE;
+		
+		blocks[5][9] = CRATE;
+		
+
+		for (int row = 9; row >= 0; row--) {
+			for (int col = 13; col >= 0; col--) {
+				if (blocks[row][col] == CRATE) {
+					Blocks.blcLi.add(new Blocks(col * Blocks.dim, row * Blocks.dim));
+				}
+				if(blocks[row][col] == GROUND) {
+					Blocks2.blcLi.add(new Blocks2(col * Blocks2.dim, row * Blocks2.dim));
+
+				}
+			}
 		}
 	}
-	public void setGround2() {
-		for (int i = 0; i < PW; i += 70) {
-			Blocks2.blcLi.add(new Blocks2(i, 630));
-		}
-	}
+
+	
+	
+//	public void setGround2() {
+//		for (int i = 0; i < PW; i += 70) {
+//			Blocks2.blcLi.add(new Blocks2(i, 630));
+//		}
+//	}
 
 	public void setFrame() {
 		window = new JFrame("Shooting game");
@@ -109,27 +151,18 @@ public class Main_Control {
 	        	//g2.fillRect(player.x + 70, player.y, -player.dim, player.dim);
 	        }
 	        
-	       
-	
-	        
-	        
-	        
 	        AffineTransform old = g2.getTransform();
 	        
 	       // if (right) {
 	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
 	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	
-	        	
-	    
+		    
 	       // }
 	       // else {
 //	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
 //	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
 	        //}
-	        
-	        
-	        
+ 
 	        
 	        g2.setTransform(old);
 	        
@@ -184,8 +217,7 @@ public class Main_Control {
 	        	t.stop();
 	        }
 	        
-	        
-			
+	       	
 		        
 			 this.repaint();
 		
@@ -198,19 +230,30 @@ public class Main_Control {
 	class Tl1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 	
+			//???
 			if (player.vy >= -90) {
 				player.vy -= 1;
 			}	
 			if (enemy.vy >= -90) {
 				enemy.vy -= 1;
 			}
-		
-	
-	
+			
+			//stop the jumping when you hit the ground
+			//if (player.y + player.height >= 500) {
 			if (player.y >= 460) {
 				player.vy = 0;
-				if (bKeyL.isKeyDown('W')) player.move('W');
+				if (bKeyL.isKeyDown('W')) {
+					player.move('W');
+				}
 			}
+			
+//			if (player.y < 460) {
+//				if (bKeyL.isKeyDown('W')) {
+//					player.move('W');
+//				}
+//			}
+			
+			
 			if (bKeyL.isKeyDown('A')) {
 				player.move('A');
 				right = false;
@@ -237,6 +280,8 @@ public class Main_Control {
 				System.out.println(gunAng1);
 			}
 			
+			
+			
 			/*
 			if (bKeyL.isKeyDown('<')) {
 				if(gunPos1 >=180) {
@@ -261,6 +306,8 @@ public class Main_Control {
 			
 			*
 			*/
+			
+			
 			
 			if (bKeyL.isKeyDown('M')) {
 				Flame.flameList.add(new Flame(enemy.x, enemy.y +20, 0));
