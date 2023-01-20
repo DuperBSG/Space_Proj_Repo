@@ -210,14 +210,21 @@ public class Main_Control {
 	        g2.setFont(f2);
 	       
 	        if (player.health != 0) {
-	 	        g2.drawString("" + enemy.health, 100, 100);
+	 	        g2.drawString("" + player.health, 100, 100);
 	        }
 	        else { 
 	        	g2.drawString("Game Over", 100, 100);
 	        	t.stop();
 	        }
 	        
-	       	
+	        g2.setColor(Color.red);
+	        if (enemy.health != 0) {
+	 	        g2.drawString("" + enemy.health, 800, 100);
+	        }
+	        else { 
+	        	g2.drawString("Game Over", 800, 100);
+	        	t.stop();
+	        }
 		        
 			 this.repaint();
 		
@@ -332,8 +339,6 @@ public class Main_Control {
 				coolDown = 30;
 			}
 
-			//ArrayList<Laser> arr = new ArrayList<>();
-			//arr = Laser.laserList;
 			for (int i = 0; i < Laser.laserList.size(); i++) {
 				Laser.laserList.get(i).move();
 				if (Laser.laserList.get(i).intersects(enemy)) {
