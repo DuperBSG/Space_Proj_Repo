@@ -80,20 +80,20 @@ public class Main_Control {
 			//blocks[2][col] = CRATE; 
 		}
 
+		for (int col = 4; col <= 9; col ++) {
+			blocks[7][col] = CRATE;
+		}
 		
-		blocks[7][2] = CRATE;
-		blocks[7][3] = CRATE;
-		blocks[7][9] = CRATE;
-		blocks[7][10] = CRATE;
-		blocks[7][11] = CRATE;
+		for (int col = 5; col <= 8; col ++) {
+			blocks[6][col] = CRATE;
 
-		blocks[6][2] = CRATE;
-		blocks[6][3] = CRATE;
-		blocks[6][9] = CRATE;
-		blocks[6][10] = CRATE;
+		}
 		
-		blocks[5][9] = CRATE;
 		
+
+		blocks[5][6] = CRATE;
+		blocks[5][7] = CRATE;
+
 
 		for (int row = 9; row >= 0; row--) {
 			for (int col = 13; col >= 0; col--) {
@@ -219,10 +219,10 @@ public class Main_Control {
 	        
 	        g2.setColor(Color.red);
 	        if (enemy.health != 0) {
-	 	        g2.drawString("" + enemy.health, 800, 100);
+	 	        g2.drawString("" + enemy.health, PW-100, 100);
 	        }
 	        else { 
-	        	g2.drawString("Game Over", 800, 100);
+	        	g2.drawString("Game Over", PW-200, 100);
 	        	t.stop();
 	        }
 		        
@@ -253,13 +253,6 @@ public class Main_Control {
 					player.move('W');
 				}
 			}
-			
-//			if (player.y < 460) {
-//				if (bKeyL.isKeyDown('W')) {
-//					player.move('W');
-//				}
-//			}
-			
 			
 			if (bKeyL.isKeyDown('A')) {
 				player.move('A');
