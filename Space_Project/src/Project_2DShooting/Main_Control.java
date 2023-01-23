@@ -42,7 +42,7 @@ public class Main_Control {
 	Timer t = new Timer(10, new Tl1());
 	Panel pnl;
 	
-	// this is a comment
+	// this is a commen
 	
 	AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(gunAng1), player.x, player.y);
 	//AffineTransform tx1 = AffineTransform.getRotateInstance(Math.toRadians(gunAng2), enemy.x, enemy.y);
