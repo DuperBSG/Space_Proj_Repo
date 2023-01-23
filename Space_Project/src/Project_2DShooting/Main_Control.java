@@ -109,28 +109,12 @@ public class Main_Control {
 	        	//g2.fillRect(player.x + 70, player.y, -player.dim, player.dim);
 	        }
 	        
-	       
-	
-	        
-	        
-	        
 	        AffineTransform old = g2.getTransform();
 	        
-	       // if (right) {
-	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
-	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	
-	        	
-	    
-	       // }
-	       // else {
-//	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
-//	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	        //}
-	        
-	        
-	        
-	        
+	      
+	        g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
+	        g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
+
 	        g2.setTransform(old);
 	        
 	        AffineTransform laz = g2.getTransform();
@@ -259,31 +243,6 @@ public class Main_Control {
 				}
 				System.out.println(gunAng1);
 			}
-			
-			/*
-			if (bKeyL.isKeyDown('<')) {
-				if(gunPos1 >=180) {
-					gunPos2 = 0;
-				}else {
-					gunPos2 += 1;
-				}
-				System.out.println(gunPos1);
-			}
-			
-			if (bKeyL.isKeyDown('>')) {
-				if(gunPos2 <=0) {
-					gunPos2 = 0;
-				}else {
-					gunPos2 -= 1;
-				}
-				System.out.println(gunPos1);
-			}
-			
-			
-			
-			
-			*
-			*/
 			
 			if (bKeyL.isKeyDown('M') && coolDown2 <= 0) {
 				Flame.flameList.add(new Flame(enemy.x, enemy.y +20, gunAng2));

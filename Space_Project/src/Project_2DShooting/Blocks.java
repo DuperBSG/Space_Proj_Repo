@@ -26,7 +26,6 @@ public class Blocks extends Rectangle{
 		height = 20;
 		width = 20;
 		
-		
 		try {
 			img = ImageIO.read(new File("platform.png"));
 		} catch (IOException e) {
