@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+
 public class Player_Ship extends Rectangle {
 
 	double xx, yy;  //double versions of x,y for precise moving
@@ -13,10 +14,12 @@ public class Player_Ship extends Rectangle {
 	double vy = 0;
 	int health = 100;
 	int dim = 100;
+	//private boolean isAlive = true;
 	BufferedImage img;
 	
 	Player_Ship (int x, int y) {
-		
+		height = 100;
+		width = 100;
 		xx = x;
 		yy = y;
 		
@@ -35,7 +38,7 @@ public class Player_Ship extends Rectangle {
 	public void move (char key) {
 		switch (key) {
 		case 'W':	 
-			vy = 15;
+			vy = 20;
 			break;
 		case 'S':
 			if (yy < Main_Control.PH) yy += vy; 
@@ -54,5 +57,12 @@ public class Player_Ship extends Rectangle {
 		x = (int)xx;
 		y = (int)yy;
 	}
+	
+	//Laser must be returned so that it can be added to the arraylist
+	//Laser shoot() {	
+		//laser constructor gets the (x,y) where it should start
+		//Laser z = new Laser(this.x + this.width/2, this.y + 10);
+		//return z;
+	//}
 	
 }

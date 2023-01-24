@@ -6,17 +6,17 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Gun {
-
+public class Gun2 extends Gun{
 	int dim = 90;
 	BufferedImage img;
-	Gun() {
+	Gun2() {
 
 		try {
-			img = ImageIO.read(new File("lighter.png"));
+			img = ImageIO.read(new File("flamegun.png"));
 		} catch (IOException e) {
-			System.out.println("Warning: lighter.png failed to load");
+			System.out.println("Warning: flamegun.png failed to load");
 		}
 	}
-
+	
+	
 }
