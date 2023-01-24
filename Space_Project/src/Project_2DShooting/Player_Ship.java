@@ -38,7 +38,7 @@ public class Player_Ship extends Rectangle {
 	public void move (char key) {
 		switch (key) {
 		case 'W':	 
-			vy = 15;
+			vy = 20;
 			break;
 		case 'S':
 			if (yy < Main_Control.PH) yy += vy; 

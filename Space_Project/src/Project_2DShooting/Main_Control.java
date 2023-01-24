@@ -1,4 +1,5 @@
 package Project_2DShooting;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -27,7 +28,9 @@ public class Main_Control {
 			}
 		});
 	}
-	
+	final static int CRATE = 1;
+	final static int GROUND = 2;
+
 	final static int PH = 700;
 	final static int PW = 980;
 	static double gunAng1 = 0.0;
@@ -41,36 +44,65 @@ public class Main_Control {
 	Better_KeyListener bKeyL = new Better_KeyListener(); 
 	Timer t = new Timer(10, new Tl1());
 	Panel pnl;
-	
+	int ground = 460;
+
 	AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(gunAng1), player.x, player.y);
 	//AffineTransform tx1 = AffineTransform.getRotateInstance(Math.toRadians(gunAng2), enemy.x, enemy.y);
 
-    AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
+	AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 	AffineTransform at = AffineTransform.getTranslateInstance(player.x, player.y);
-	
+
 	Main_Control() {
 		setFrame();
 		Panel pnl = new Panel();
 		window.add(pnl);
 		window.pack();
 		setGround();
-		setGround2();
+		//		setGround2();
 		//window.setUndecorated(true);
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
-		
-		
-		
+
 	}
-	
-	public void setGround() {
-		for (int i = 0; i < PW; i += 70) {
-			Blocks.blcLi.add(new Blocks(i, 560));
+
+	//	public void setGround() {
+	//		for (int i = 0; i < PW; i += 70) {
+	//			Blocks.blcLi.add(new Blocks(i, 560));
+	//		}
+	//	}
+
+	int[][] blocks = new int[10][14];
+
+	public void setGround () {
+		//build the blocks (both ground and crate)
+		for (int col = 0; col < 14; col++) {
+			blocks[8][col] = CRATE; 
+			blocks[9][col] = GROUND;
+			//blocks[2][col] = CRATE; 
 		}
-	}
-	public void setGround2() {
-		for (int i = 0; i < PW; i += 70) {
-			Blocks2.blcLi.add(new Blocks2(i, 630));
+		for (int col = 4; col <= 9; col ++) {
+			blocks[7][col] = CRATE;
+		}
+
+		for (int col = 5; col <= 8; col ++) {
+			blocks[6][col] = CRATE;
+
+		}
+
+		blocks[5][6] = CRATE;
+		blocks[5][7] = CRATE;
+
+
+		for (int row = 9; row >= 0; row--) {
+			for (int col = 13; col >= 0; col--) {
+				if (blocks[row][col] == CRATE) {
+					Blocks.blcLi.add(new Blocks(col * Blocks.dim, row * Blocks.dim));
+				}
+				if(blocks[row][col] == GROUND) {
+					Blocks2.blcLi.add(new Blocks2(col * Blocks2.dim, row * Blocks2.dim));
+
+				}
+			}
 		}
 	}
 
@@ -78,14 +110,14 @@ public class Main_Control {
 		window = new JFrame("Shooting game");
 		window.setResizable(false);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 	}
-	
+
 	boolean right = true;
 	boolean eRight = false;
-	
+
 	class Panel extends JPanel{
-		
+
 		Panel() {
 			this.setBackground(bg);
 			this.addKeyListener(bKeyL);
@@ -93,125 +125,150 @@ public class Main_Control {
 			this.setPreferredSize(new Dimension(PW, PH));
 			t.start();
 		}
-		
-		
+
+
 		public void paintComponent(Graphics g) {
 			Graphics2D g2 = (Graphics2D)g;
 			at.rotate(Math.toRadians(gunAng1), player.x/2, player.y);
-	        super.paintComponent(g2); 
-	        
-	        if (right) {
-	        	g2.drawImage(player.img, player.x, player.y, player.dim, player.dim, null);
-	        	//g2.fillRect(player.x, player.y, player.dim, player.dim);
-	        }
-	        else {
-	        	g2.drawImage(player.img, player.x +100, player.y, -player.dim, player.dim, null);
-	        	//g2.fillRect(player.x + 70, player.y, -player.dim, player.dim);
-	        }
-	        
-	       
-	
-	        
-	        
-	        
-	        AffineTransform old = g2.getTransform();
-	        
-	       // if (right) {
-	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
-	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	
-	        	
-	    
-	       // }
-	       // else {
-//	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
-//	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
-	        //}
-	        
-	        
-	        
-	        
-	        g2.setTransform(old);
-	        
-	        AffineTransform laz = g2.getTransform();
-	        
-	        for (Laser laser : Laser.laserList) {
-	        	//g2.rotate(Math.toRadians(laser.ang), player.x, player.y);
+			super.paintComponent(g2); 
+
+			if (right) {
+				g2.drawImage(player.img, player.x, player.y, player.dim, player.dim, null);
+				//g2.fillRect(player.x, player.y, player.dim, player.dim);
+			}
+			else {
+				g2.drawImage(player.img, player.x +100, player.y, -player.dim, player.dim, null);
+				//g2.fillRect(player.x + 70, player.y, -player.dim, player.dim);
+			}
+
+			AffineTransform old = g2.getTransform();
+
+			// if (right) {
+			g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
+			g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
+
+			// }
+			// else {
+			//	        	g2.rotate(Math.toRadians(gunAng1), player.x + 50, player.y + 50);
+			//	        	g2.drawImage(gun.img, player.x, player.y, gun.dim, gun.dim, null);
+			//}
+
+
+			g2.setTransform(old);
+
+			AffineTransform laz = g2.getTransform();
+
+			for (Laser laser : Laser.laserList) {
+				//g2.rotate(Math.toRadians(laser.ang), player.x, player.y);
 				g2.drawImage(laser.img, laser.x, laser.y, laser.dimX, laser.dimY, null);
 				//g2.fillRect(laser.x, laser.y, laser.width, laser.height);
 			}
-	        g2.setTransform(laz);
-	        
-        	
-	        for (Flame flame : Flame.flameList) {
-	        	//g2.rotate(Math.toRadians(laser.ang), player.x, player.y);
+			g2.setTransform(laz);
+
+
+			for (Flame flame : Flame.flameList) {
+				//g2.rotate(Math.toRadians(laser.ang), player.x, player.y);
 				g2.drawImage(flame.img, flame.x, flame.y, flame.dimX, flame.dimY, null);
 				//g2.fillRect(laser.x, laser.y, laser.width, laser.height);
 			}
-	        
-	         
-	        if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
-	        else g2.drawImage(enemy.img, enemy.x + 100, enemy.y, -enemy.dim, enemy.dim, null);
-	        
-	        //g2.rotate(Math.toRadians(gunAng2), enemy.x + 50, enemy.y + 50);
-	        g2.drawImage(gun2.img, enemy.x, enemy.y, gun2.dim, gun2.dim, null);
-	        
-	        
-	        //g2.drawImage(laser.img, laser.x + 70, laser.y, laser.dimX, laser.dimY, null);
-	        
-	        
-	       
-	        for (Blocks it : Blocks.blcLi) {    
-	        
-		        if (it.img != null) {
+
+
+			if (eRight) g2.drawImage(enemy.img, enemy.x, enemy.y, enemy.dim, enemy.dim, null);
+			else g2.drawImage(enemy.img, enemy.x + 100, enemy.y, -enemy.dim, enemy.dim, null);
+
+			//g2.rotate(Math.toRadians(gunAng2), enemy.x + 50, enemy.y + 50);
+			g2.drawImage(gun2.img, enemy.x, enemy.y, gun2.dim, gun2.dim, null);
+
+
+			//g2.drawImage(laser.img, laser.x + 70, laser.y, laser.dimX, laser.dimY, null);
+
+
+
+			for (Blocks it : Blocks.blcLi) {    
+
+				if (it.img != null) {
 					//g2.drawImage(player.img, player.x, player.y, null);
-		        	g2.drawImage(it.img, it.x, it.y, it.dim, it.dim, null);
+					g2.drawImage(it.img, it.x, it.y, it.dim, it.dim, null);
 				} else {
 					g2.setColor(it.clr);
 					g2.fillRect(it.x,  it.y,  it.width, it.height);
 				} 
-	        }
-	   
-	        g2.setColor(Color.green);
-	        Font f2 = new Font("Arial", Font.CENTER_BASELINE, 40);
-	        g2.setFont(f2);
-	       
-	        if (player.health != 0) {
-	 	        g2.drawString("" + enemy.health, 100, 100);
-	        }
-	        else { 
-	        	g2.drawString("Game Over", 100, 100);
-	        	t.stop();
-	        }
-	        
-	        
+			}
+
+			g2.setColor(Color.BLACK);
+			g2.setStroke(new BasicStroke(3));
+
+			//set up x, y coordinates and height of the bars
+			int playerBarX = PW/98*10;
+			int enemyBarX = PW/98*80;
+			int barY = PH/7;
+			int barH = 20;
 			
-		        
-			 this.repaint();
-		
+			//draw the outline of the health bars
+			g2.drawRect(playerBarX, barY, 100, barH);
+			g2.drawRect(enemyBarX, barY, 100, barH);
+			
+			Font f2 = new Font("Arial", Font.CENTER_BASELINE, 15);
+			Font f3 = new Font("Arial", Font.CENTER_BASELINE, 40);
+
+
+			//create a health bar for the player
+			g2.setColor(Color.green);
+			if (player.health != 0) {
+				g2.setFont(f2);
+				g2.fillRect(playerBarX, barY, player.health-(1/20),barH);
+				g2.drawString("" + player.health, playerBarX, barY);
+
+			}
+			else { 
+				g2.setFont(f3);
+				g2.drawString("Game Over", PW/2-80, PH/7);
+				t.stop();
+			}
+
+			//create a health bar for the enemy
+			g2.setColor(Color.red);
+			if (enemy.health != 0) {
+				g2.setFont(f2);
+				g2.fillRect(enemyBarX, barY, enemy.health-(1/20), barH);
+				g2.drawString("" + enemy.health, enemyBarX, barY);
+
+			}
+			else { 
+				g2.setFont(f3);
+				g2.drawString("Game Over", PW/2-80, barY);
+				t.stop();
+				
+			}
+
+			this.repaint();
+
 		}
 
 	}
 
-	
+
 	int coolDown = 0;
-	int coolDown2 = 0;
 	class Tl1 implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-	
+
+			//???
 			if (player.vy >= -90) {
 				player.vy -= 1;
 			}	
 			if (enemy.vy >= -90) {
 				enemy.vy -= 1;
 			}
-		
-	
-	
+
+			//stop the jumping when you hit the ground
+			//if (player.y + player.height >= 500) {
 			if (player.y >= 460) {
 				player.vy = 0;
-				if (bKeyL.isKeyDown('W')) player.move('W');
+				if (bKeyL.isKeyDown('W')) {
+					player.move('W');
+				}
 			}
+
 			if (bKeyL.isKeyDown('A')) {
 				player.move('A');
 				right = false;
@@ -228,7 +285,7 @@ public class Main_Control {
 				}
 				System.out.println(gunAng1);
 			}
-			
+
 			if (bKeyL.isKeyDown('G')) {
 				if(gunAng1 <=-180) {
 					gunAng1 = -180;
@@ -237,7 +294,9 @@ public class Main_Control {
 				}
 				System.out.println(gunAng1);
 			}
-			
+
+
+
 			/*
 			if (bKeyL.isKeyDown('<')) {
 				if(gunPos1 >=180) {
@@ -247,7 +306,7 @@ public class Main_Control {
 				}
 				System.out.println(gunPos1);
 			}
-			
+
 			if (bKeyL.isKeyDown('>')) {
 				if(gunPos2 <=0) {
 					gunPos2 = 0;
@@ -256,19 +315,16 @@ public class Main_Control {
 				}
 				System.out.println(gunPos1);
 			}
-			
-			
-			
-			
-			*
-			*/
-			
-			if (bKeyL.isKeyDown('M') && coolDown2 <= 0) {
-				Flame.flameList.add(new Flame(enemy.x, enemy.y +20, 0));
-				coolDown2 = 30;
-			}
-			
-			
+
+
+
+
+			 *
+			 */
+
+
+
+
 			if (enemy.y >= 460) {
 				enemy.vy = 0;
 				if (bKeyL.isKeyDown(38)) enemy.move('W');
@@ -285,9 +341,11 @@ public class Main_Control {
 				Laser.laserList.add(new Laser(player.x, player.y +20, gunAng1));
 				coolDown = 30;
 			}
+			if (bKeyL.isKeyDown('M') && coolDown < 0) {
+				Flame.flameList.add(new Flame(enemy.x, enemy.y +20, gunAng1));
+				coolDown = 30;
+			}
 
-			//ArrayList<Laser> arr = new ArrayList<>();
-			//arr = Laser.laserList;
 			for (int i = 0; i < Laser.laserList.size(); i++) {
 				Laser.laserList.get(i).move();
 				if (Laser.laserList.get(i).intersects(enemy)) {
@@ -295,7 +353,7 @@ public class Main_Control {
 					Laser.laserList.remove(i);
 				}
 			}
-			
+
 			for (int i = 0; i < Flame.flameList.size(); i++) {
 				Flame.flameList.get(i).move();
 				if (Flame.flameList.get(i).intersects(player)) {
@@ -303,14 +361,12 @@ public class Main_Control {
 					Flame.flameList.remove(i);
 				}
 			}
-		//	Laser.laserList = arr;
 			
 			player.move('F');
 			enemy.move('F');
 			coolDown--;
-			coolDown2--;
 			//System.out.println(coolDown);
-			
+
 		}
 	}
 }

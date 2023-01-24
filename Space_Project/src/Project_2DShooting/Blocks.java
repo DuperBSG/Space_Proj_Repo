@@ -14,17 +14,15 @@ public class Blocks extends Rectangle{
 	static ArrayList<Blocks> blcLi = new ArrayList<>();
 	int x;
 	int y;
-	final int dim = 70;
+	static final int dim = 70;
 	BufferedImage img;
 	Color clr = Color.GREEN;
 	
 	Blocks (int x, int y) {
-		height = 100;
-		width = 100;
+		height = 70;
+		width = 70;
 		this.x = x;
 		this.y = y;
-		height = 20;
-		width = 20;
 		
 		
 		try {
@@ -41,5 +39,9 @@ public class Blocks extends Rectangle{
 		sp.vy += 2;
 	}
 	
+	boolean collision() {
+			
+			return false;		
+	}
 	
 }
