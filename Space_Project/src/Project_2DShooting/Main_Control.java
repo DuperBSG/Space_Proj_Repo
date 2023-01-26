@@ -248,22 +248,22 @@ public class Main_Control {
 				System.out.println(gunAng1);
 			}
 			
-			if (bKeyL.isKeyDown(',')) {
+			if (bKeyL.isKeyDown('.')) {
 				if(gunAng2 >=0) {
 					gunAng2 = 0;
 				}else {
 					gunAng2 += 5;
 				}
-				System.out.println(gunAng1);
+				//System.out.println(gunAng1);
 			}
 			
-			if (bKeyL.isKeyDown('.')) {
+			if (bKeyL.isKeyDown(',')) {
 				if(gunAng2 <=-180) {
 					gunAng2 = -180;
 				}else {
 					gunAng2 -= 5;
 				}
-				System.out.println(gunAng1);
+				//System.out.println(gunAng1);
 			}
 			
 			/*
