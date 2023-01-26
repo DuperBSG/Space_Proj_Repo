@@ -18,8 +18,8 @@ public class Player_Ship extends Rectangle {
 	BufferedImage img;
 	
 	Player_Ship (int x, int y) {
-		height = 100;
-		width = 100;
+		height = 60;
+		width = 60;
 		xx = x;
 		yy = y;
 		

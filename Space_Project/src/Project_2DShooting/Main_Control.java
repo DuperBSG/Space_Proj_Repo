@@ -153,7 +153,10 @@ public class Main_Control {
 			else g2.drawImage(enemy.img, enemy.x + 100, enemy.y, -enemy.dim, enemy.dim, null);
 
 
-			g2.drawImage(gun2.img, enemy.x, enemy.y, gun2.dim, gun2.dim, null);
+			g2.rotate(Math.toRadians(gunAng2), enemy.x + 50, enemy.y + 50);
+        	g2.drawImage(gun2.img, enemy.x, enemy.y, gun2.dim, gun2.dim, null);
+        	g2.setTransform(old);
+        	
 
 		
 
@@ -254,27 +257,8 @@ public class Main_Control {
 
 
 
-			/*
-			if (bKeyL.isKeyDown('<')) {
-				if(gunPos1 >=180) {
-					gunPos2 = 0;
-				}else {
-					gunPos2 += 1;
-				}
-				System.out.println(gunPos1);
-			}
 
-			if (bKeyL.isKeyDown('>')) {
-				if(gunPos2 <=0) {
-					gunPos2 = 0;
-				}else {
-					gunPos2 -= 1;
-				}
-				System.out.println(gunPos1);
-			}
-
-
-			 */
+			 
 
 
 
