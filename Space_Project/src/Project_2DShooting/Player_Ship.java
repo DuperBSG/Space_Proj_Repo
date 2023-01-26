@@ -10,11 +10,10 @@ import javax.imageio.ImageIO;
 public class Player_Ship extends Rectangle {
 
 	double xx, yy;  //double versions of x,y for precise moving
-	double vx = 5;
+	double vx = 7;
 	double vy = 0;
 	int health = 100;
-	int dim = 100;
-	//private boolean isAlive = true;
+	int dim = 100; //dimension
 	BufferedImage img;
 	
 	Player_Ship (int x, int y) {
@@ -35,6 +34,8 @@ public class Player_Ship extends Rectangle {
 
 	}
 	
+	
+	//move method to update cordinate
 	public void move (char key) {
 		switch (key) {
 		case 'W':	 
@@ -58,11 +59,5 @@ public class Player_Ship extends Rectangle {
 		y = (int)yy;
 	}
 	
-	//Laser must be returned so that it can be added to the arraylist
-	//Laser shoot() {	
-		//laser constructor gets the (x,y) where it should start
-		//Laser z = new Laser(this.x + this.width/2, this.y + 10);
-		//return z;
-	//}
 	
 }

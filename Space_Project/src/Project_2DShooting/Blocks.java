@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+//ground class
 public class Blocks extends Rectangle{
 	
 	static ArrayList<Blocks> blcLi = new ArrayList<>();
@@ -24,7 +25,6 @@ public class Blocks extends Rectangle{
 		this.x = x;
 		this.y = y;
 		
-		
 		try {
 			img = ImageIO.read(new File("platform.png"));
 		} catch (IOException e) {
@@ -33,15 +33,4 @@ public class Blocks extends Rectangle{
 		
 		blcLi.add(this);
 	}
-	
-	static void boost(Player_Ship sp) {
-		sp.vx += 2;
-		sp.vy += 2;
-	}
-	
-	boolean collision() {
-			
-			return false;		
-	}
-	
 }

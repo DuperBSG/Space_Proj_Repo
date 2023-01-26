@@ -9,37 +9,28 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-/* This will just be moving vertically (initially)
- */
 class Laser extends Rectangle{
 	
 	static ArrayList<Laser> laserList = new ArrayList<Laser>();
 	BufferedImage img;
-	int dimX = 100;
+	int dimX = 50;
 	int dimY = 50;
-	
-	
-	//private static long lastShot = System.currentTimeMillis();
-	
-	//double precision not used in this class.
-	private int dist = 0;
 	int velo = 10;
 	double vx = 0;
 	double vy = 0;
-	int damage = 20;
 	double ang;
 	
 	Laser(int x, int y, double angle) {
 		height = 50;
-		width = 80;
+		width = 50;
 		height = 10;
 		this.x = x;
 		this.y = y;
 		ang = Math.abs(angle);
+		//find out the vertical/horizontal velocity components
 		vx = (Math.cos(Math.toRadians(ang)) * (velo));
 		vy = (Math.sin(Math.toRadians(ang))* (velo));
-		//System.out.println(ang + "  " + vx + "   " + vy);
-		
+	
 		try {
 			img = ImageIO.read(new File("bullet.png"));
 		} catch (IOException e) {
